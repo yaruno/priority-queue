@@ -52,7 +52,12 @@ describe('PriorityQueue', () => {
 
     describe('size', () => {
         test('should return correct queue size', () => {
-            // TODO: Implement test
+            queue.add("string data", 1);
+            expect(queue.queueLength()).toBe(1);
+            queue.pop()
+            expect(queue.queueLength()).toBe(0);
+            queue.pop()
+            expect(queue.queueLength()).toBe(0);
         });
     });
 }); 
