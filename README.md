@@ -4,10 +4,11 @@ A TypeScript implementation of a priority queue using a doubly-linked list data 
 
 ## Overview
 
-This priority queue is implemented as a sorted doubly-linked list where each node contains a value and a priority number. The queue maintains the following ordering:
+This priority queue is implemented as a sorted doubly-linked list where each node contains a value of **any type** and a **priority number**. The queue maintains the following ordering:
 
 - **Lower priority numbers** are positioned at the **back** of the queue (processed first)
 - **Higher priority numbers** are positioned at the **front** of the queue (processed later)
+- Items are removed from the back of the queue i.e. at the order of lowest priority number first
 - Items with the **same priority** are grouped together
 - Items added with **same priority** are added to the end of their priority group
 
@@ -25,8 +26,8 @@ The priority queue consists of:
 
 - **Lower numbers = Higher priority** (processed first)
 - **Higher numbers = Lower priority** (processed later)
-- Items with priority 1 will be processed before items with priority 10
-- Items with the same priority are grouped together 
+- E.g. Items with priority 1 will be processed before items with priority 10
+- Items with the same priority are grouped together, but in order so that the last added with same priority will be processed last from the group of same priorities
 
 ### Core Operations
 
