@@ -41,6 +41,10 @@ class Node {
     }
 }
 
+interface PriorityQueueItem<T> {
+    value: T;
+    priority: number;
+}
 
 export class PriorityQueue {
     private head: Node | null;
@@ -119,7 +123,9 @@ export class PriorityQueue {
         return this.queueSize;
     }
     //removing from the end of the priority queue i.e. the most important message
-    public pop(): Node | null {
+    //might be better to just get the value and priority when popping here
+    //end user will probably not care of the underlying data structure
+    public pop(): PriorityQueueItem<any> | null {
         let temp = null
         if (this.tail != null) {
             temp = this.tail
@@ -127,8 +133,14 @@ export class PriorityQueue {
             if (this.tail?.getNext()) {
                 this.tail.setNext(null)
             }
+            this.queueSize--;
+            return {
+                value: temp.getValue(),
+                priority: temp.getPriority()
+            }
         }
-        return temp
+        return null;
+
         //move tail pointer to one backwards
         //return the tail node
         //adjust queue size by 1

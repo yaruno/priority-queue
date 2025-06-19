@@ -32,7 +32,15 @@ describe('PriorityQueue', () => {
 
     describe('pop', () => {
         test('should remove highest priority element', () => {
-            // TODO: Implement test
+            queue.add(1, 1);
+            const result = queue.pop()
+            expect(result).not.toBeNull();
+            if (result) {
+                const { value, priority } = result;
+                expect(value).toBe(1);
+                expect(priority).toBe(1);
+            }
+            expect(queue.queueLength()).toBe(0);
         });
     });
 
