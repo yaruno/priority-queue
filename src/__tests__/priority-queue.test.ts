@@ -54,7 +54,12 @@ describe('PriorityQueue', () => {
         test('should return correct queue size', () => {
             queue.add("string data", 1);
             expect(queue.queueLength()).toBe(1);
-            queue.pop()
+            const result = queue.pop()
+            if (result) {
+                const { value, priority } = result
+                expect(value).toBe("string data")
+                expect(priority).toBe(1)
+            }
             expect(queue.queueLength()).toBe(0);
             queue.pop()
             expect(queue.queueLength()).toBe(0);

@@ -115,8 +115,15 @@ export class PriorityQueue {
         }
     }
 
-    public peek(): Node | null {
-        return this.tail;
+    public peek(): PriorityQueueItem<any> | null {
+        if (this.tail !== null) {
+            return {
+                value: this.tail.getValue(),
+                priority: this.tail.getPriority()
+            }
+        }
+
+        return null;
     }
 
     public queueLength(): number {
