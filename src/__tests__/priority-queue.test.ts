@@ -47,10 +47,24 @@ describe('PriorityQueue', () => {
     describe('peek', () => {
         test('should return highest priority element without removing', () => {
             // TODO: Implement test
+            queue.add("string data", 1);
+            const result = queue.peek()
+            if (result) {
+                const { value, priority } = result
+                expect(value).toBe("string data")
+                expect(priority).toBe(1)
+            }
+            queue.add({ json: 123 }, 0);
+            const result2 = queue.peek();
+            if (result2) {
+                const { value, priority } = result2
+                expect(value.json).toBe(123);
+                expect(priority).toBe(0);
+            }
         });
     });
 
-    describe('size', () => {
+    describe('queue size', () => {
         test('should return correct queue size', () => {
             queue.add("string data", 1);
             expect(queue.queueLength()).toBe(1);
