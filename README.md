@@ -1,4 +1,6 @@
-# Priority Queue Implementation
+# Priority Queue with Explicit Priority Control
+- Custom priority numbers - not just object properties
+- Priority Queue That You Control - Not the library
 
 A TypeScript implementation of a priority queue using a doubly-linked list data structure.
 
@@ -9,25 +11,9 @@ This priority queue is implemented as a sorted doubly-linked list where each nod
 - **Lower priority numbers** are positioned at the **back** of the queue (processed first)
 - **Higher priority numbers** are positioned at the **front** of the queue (processed later)
 - Items are removed from the back of the queue i.e. at the order of lowest priority number first
-- Items with the **same priority** are grouped together
-- Items added with **same priority** are added to the end of their priority group
+- Items with the **same priority** are grouped together following FIFO principle
 
 ## How It Works
-
-### Data Structure
-
-The priority queue consists of:
-- **Node**: Each node contains a value, priority number, and references to the next and previous nodes
-- **Head**: Points to the item that will be processed **last** (highest priority number, front of queue)
-- **Tail**: Points to the item that will be processed **first** (lowest priority number, back of queue)
-- **Queue Size**: Tracks the total number of items
-
-### Priority System
-
-- **Lower numbers = Higher priority** (processed first)
-- **Higher numbers = Lower priority** (processed later)
-- E.g. Items with priority 1 will be processed before items with priority 10
-- Items with the same priority are grouped together, but in order so that the last added with same priority will be processed last from the group of same priorities
 
 ### Core Operations
 
@@ -35,8 +21,8 @@ The priority queue consists of:
 
 The `add` method inserts items in the correct position based on priority:
 
-1. **Empty Queue**: If the queue is empty, the new node becomes both head and tail
-2. **Lower Priority**: If the new item has lower priority than the head, it's inserted at the front
+1. **Empty Queue**: If the queue is empty, the new item becomes the first item in queue
+2. **Lower Priority**: If the new item has lower priority number than the last item in queue , it's inserted at the back of the queue
 3. **Higher/Equal Priority**: The method traverses the list to find the correct insertion point:
    - **Same Priority**: Inserts at the end of existing items with the same priority
    - **Higher Priority**: Inserts before items with higher priority
@@ -44,24 +30,23 @@ The `add` method inserts items in the correct position based on priority:
 
 **Example:**
 ```typescript
-// Starting queue: [1, 2, 5, 10] (1 is highest priority, 10 is lowest)
-queue.add("task3", 3);  // Result: [1, 2, 3, 5, 10]
-queue.add("task0", 0);  // Result: [0, 1, 2, 3, 5, 10]
-queue.add("task3b", 3); // Result: [0, 1, 2, 3, 3, 5, 10]
+// Starting queue: [10, 5, 2, 1] (1 is lowest priority number, 10 is highest priority number)
+queue.add("task3", 3);  // Queue state: [10, 5, 3, 2, 1] 
+queue.add("task0", 0);  // Queue state: [10, 5, 3, 2, 1, 0]
+queue.add("task3b", 3); // Queue state: [10, 5, 3*, 3, 2, 1, 0] 
 ```
 
 #### 2. Removing Items (`pop()`)
 
-The `pop` method removes and returns the **highest priority** item (from the tail):
+The `pop` method removes and returns the **highest priority** item i.e. item with lowest priority number (from the tail):
 
-1. Returns the item at the tail (lowest priority number = highest importance)
-2. Updates the tail pointer to the previous node
-3. Decrements the queue size
+1. Returns the value and proproty at the tail
+2. Removes item from tail, updates queue size
 4. Returns `null` if the queue is empty
 
 **Example:**
 ```typescript
-// Queue: [0, 1, 2, 3, 3, 5, 10]
+// Queue state: [10, 5, 3*, 3, 2, 1, 0]
 const item = queue.pop(); // Returns item with priority 0 (highest importance)
 // Queue: [1, 2, 3, 3, 5, 10]
 ```
@@ -85,9 +70,10 @@ import { PriorityQueue } from './src/index';
 const queue = new PriorityQueue();
 
 // Add items with different priorities
-queue.add("Urgent task", 1);      // Highest priority (processed first)
-queue.add("Normal task", 5);      // Medium priority
-queue.add("Low priority task", 10); // Lowest priority (processed last)
+// Items can have any type, string, number, Uint8Array etc.
+queue.add("Urgent task", 1);              // Highest priority (processed first)
+queue.add({task: "Normal task"}, 5);      // Medium priority
+queue.add(new Uint8Array([0,1,2,3]), 10); // Lowest priority (processed last)
 
 console.log(queue.queueLength()); // 3
 
@@ -106,17 +92,22 @@ console.log(queue.queueLength()); // 2
 - **Peek**: O(1) - Direct access to tail
 - **Queue Length**: O(1) - Stored as a property
 
-## Key Features
+## How This Compares to Other Priority Queues
 
-- **Type Safety**: Written in TypeScript with proper type definitions
-- **Flexible Values**: Supports any data type for values
-- **Priority Grouping**: Items with the same priority are grouped together
-- **Memory Efficient**: Uses doubly-linked list for O(1) removal operations
-- **Simple Interface**: Clean API with intuitive method names
+Most popular npm priority queues (like `tinyqueue`, `fastpriorityqueue`, etc.) use **binary heaps**, where:
 
-## Implementation Notes
+- You push values into a queue
+- You can optionally provide a comparator
+- The internal structure is a heap
+- Items with the same priority may be returned in **any order**
 
-- The queue uses a **min-heap-like** ordering where lower numbers represent higher priority
-- Items are removed from the **tail** (lowest priority number = highest importance)
-- The implementation maintains proper doubly-linked list connections
-- All operations handle edge cases (empty queue, single item, etc.)
+### This Library Gives You More Control:
+
+| Feature                          | This Library                        | Heap-Based Queues (e.g. TinyQueue) |
+|----------------------------------|-------------------------------------|-------------------------------------|
+| Data Structure                   | Doubly-linked list (sorted)         | Binary heap                         |
+| Priority Assignment              | Explicit `priority` argument        | Comparator-based                    |
+| Order Within Same Priority       | FIFO (insertion order preserved)    | Unpredictable                       |
+| Sorting Behavior                 | Fully sorted internally             | Not sorted (heap structure only)    |
+| Peek / Pop Complexity            | O(1)                                | O(log n)                            |
+| Use Case                         | When exact ordering matters         | When only performance matters       |
