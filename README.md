@@ -4,6 +4,12 @@
 
 A TypeScript implementation of a priority queue using a doubly-linked list data structure.
 
+## Installation
+
+```bash
+npm install priority-queue
+```
+
 ## Overview
 
 This priority queue is implemented as a sorted doubly-linked list where each node contains a value of **any type** and a **priority number**. The queue maintains the following ordering:
@@ -58,31 +64,64 @@ The `peek` method returns the highest priority item without removing it:
 - Returns the item at the tail (lowest priority number = highest importance)
 - Returns `null` if the queue is empty
 
-#### 4. Queue Information (`queueLength()`)
+#### 4. Queue Information (`size()`)
 
-Returns the current number of items in the queue.
+Returns the current number of items in the queue. Returns 0 if queue is empty.
 
 ## Usage Example
 
-```typescript
-import { PriorityQueue } from './src/index';
+### CommonJS
+```javascript
+const { PriorityQueue } = require('priority-queue');
 
 const queue = new PriorityQueue();
 
 // Add items with different priorities
 // Items can have any type, string, number, Uint8Array etc.
-queue.queue("Urgent task", 1);              // Highest priority (processed first)
-queue.queue({task: "Normal task"}, 5);      // Medium priority
-queue.queue(new Uint8Array([0,1,2,3]), 10); // Lowest priority (processed last)
+queue.enqueue("Urgent task", 1);              // Highest priority (processed first)
+queue.enqueue({task: "Normal task"}, 5);      // Medium priority
+queue.enqueue(new Uint8Array([0,1,2,3]), 10); // Lowest priority (processed last)
 
-console.log(queue.queueLength()); // 3
+console.log(queue.size()); // 3
 
 // Peek at the highest priority item
 const nextItem = queue.peek(); // { value: "Urgent task", priority: 1 }
 
 // Remove and process the highest priority item
 const processed = queue.dequeue(); // { value: "Urgent task", priority: 1 }
-console.log(queue.queueLength()); // 2
+console.log(queue.size()); // 2
+```
+
+### ES Modules
+```javascript
+import { PriorityQueue } from 'priority-queue';
+
+const queue = new PriorityQueue();
+
+// Add items with different priorities
+queue.enqueue("Urgent task", 1);
+queue.enqueue("Normal task", 5);
+queue.enqueue("Low priority task", 10);
+
+console.log(queue.size()); // 3
+console.log(queue.peek()); // { value: "Urgent task", priority: 1 }
+console.log(queue.dequeue()); // { value: "Urgent task", priority: 1 }
+```
+
+### TypeScript
+```typescript
+import { PriorityQueue, PriorityQueueItem } from 'priority-queue';
+
+const queue = new PriorityQueue();
+
+// Add items with different priorities
+queue.enqueue("Urgent task", 1);
+queue.enqueue("Normal task", 5);
+queue.enqueue("Low priority task", 10);
+
+// Type-safe operations
+const nextItem: PriorityQueueItem<string> | null = queue.peek();
+const processed: PriorityQueueItem<string> | null = queue.dequeue();
 ```
 
 ## Time Complexity
