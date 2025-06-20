@@ -1,9 +1,3 @@
-// priority queue is a sorted double linked list with a priority and value
-// the priority is the order of the node in the list
-// the node with the highest priority is the first node in the list
-// the node with the lowest priority is the last node in the list
-
-
 class Node {
     private value: any;
     private priority: number;   //the higher the number, the higher the priority
@@ -64,17 +58,9 @@ export class PriorityQueue {
             this.tail = newNode;
             return this.queueSize++;
 
-        } else {    // one or multiple nodes in queue with same or different priorities
-            // go through list find a position where the priority of node is higher than
-            // the node we want to add
+        } else {
 
             let pointer: Node | null = this.head
-            //we want to add 3, queue is [10,5,2,1], smallest priority is the most important one
-            //we want to add 20, queue is [10,5,3,2,1]
-            //queue is now [20,10,3,2,1]
-            //we can also have multiple same priority messages in queue
-            //we want to add 3, queue is [20,10,3,2,1]
-            //queue should be now [20,10,3*,3,2,1] three gets added to 'end' of 3 priority
 
             //if new node has greater priority number than the head of the queue
             //then add it to the beginning of the queue
@@ -129,9 +115,7 @@ export class PriorityQueue {
     public queueLength(): number {
         return this.queueSize;
     }
-    //removing from the end of the priority queue i.e. the most important message
-    //might be better to just get the value and priority when popping here
-    //end user will probably not care of the underlying data structure
+
     public pop(): PriorityQueueItem<any> | null {
         let temp = null
         if (this.tail != null) {
@@ -147,14 +131,5 @@ export class PriorityQueue {
             }
         }
         return null;
-
-        //move tail pointer to one backwards
-        //return the tail node
-        //adjust queue size by 1
-        //if queue is empty return null
     }
-    // remove
-    // peek
-    // queue length
-    // reset/destroy
 }
