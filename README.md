@@ -17,9 +17,9 @@ This priority queue is implemented as a sorted doubly-linked list where each nod
 
 ### Core Operations
 
-#### 1. Adding Items (`add(value, priority)`)
+#### 1. Adding Items To Queue (`enqueue(value, priority)`)
 
-The `add` method inserts items in the correct position based on priority:
+The `enqueue` method inserts items in the correct position based on priority:
 
 1. **Empty Queue**: If the queue is empty, the new item becomes the first item in queue
 2. **Lower Priority**: If the new item has lower priority number than the last item in queue , it's inserted at the back of the queue
@@ -31,12 +31,12 @@ The `add` method inserts items in the correct position based on priority:
 **Example:**
 ```typescript
 // Starting queue: [10, 5, 2, 1] (1 is lowest priority number, 10 is highest priority number)
-queue.add("task3", 3);  // Queue state: [10, 5, 3, 2, 1] 
-queue.add("task0", 0);  // Queue state: [10, 5, 3, 2, 1, 0]
-queue.add("task3b", 3); // Queue state: [10, 5, 3*, 3, 2, 1, 0] 
+queue.enqueue("task3", 3);  // Queue state: [10, 5, 3, 2, 1] 
+queue.enqueue("task0", 0);  // Queue state: [10, 5, 3, 2, 1, 0]
+queue.enqueue("task3b", 3); // Queue state: [10, 5, 3*, 3, 2, 1, 0] 
 ```
 
-#### 2. Removing Items (`pop()`)
+#### 2. Removing Items (`dequeue()`)
 
 The `pop` method removes and returns the **highest priority** item i.e. item with lowest priority number (from the tail):
 
@@ -47,7 +47,7 @@ The `pop` method removes and returns the **highest priority** item i.e. item wit
 **Example:**
 ```typescript
 // Queue state: [10, 5, 3*, 3, 2, 1, 0]
-const item = queue.pop(); // Returns item with priority 0 (highest importance)
+const item = queue.dequeue(); // Returns item with priority 0 (highest importance)
 // Queue: [1, 2, 3, 3, 5, 10]
 ```
 
@@ -71,9 +71,9 @@ const queue = new PriorityQueue();
 
 // Add items with different priorities
 // Items can have any type, string, number, Uint8Array etc.
-queue.add("Urgent task", 1);              // Highest priority (processed first)
-queue.add({task: "Normal task"}, 5);      // Medium priority
-queue.add(new Uint8Array([0,1,2,3]), 10); // Lowest priority (processed last)
+queue.queue("Urgent task", 1);              // Highest priority (processed first)
+queue.queue({task: "Normal task"}, 5);      // Medium priority
+queue.queue(new Uint8Array([0,1,2,3]), 10); // Lowest priority (processed last)
 
 console.log(queue.queueLength()); // 3
 
@@ -81,7 +81,7 @@ console.log(queue.queueLength()); // 3
 const nextItem = queue.peek(); // { value: "Urgent task", priority: 1 }
 
 // Remove and process the highest priority item
-const processed = queue.pop(); // { value: "Urgent task", priority: 1 }
+const processed = queue.dequeue(); // { value: "Urgent task", priority: 1 }
 console.log(queue.queueLength()); // 2
 ```
 

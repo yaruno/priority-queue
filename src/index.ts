@@ -51,7 +51,7 @@ export class PriorityQueue {
         this.queueSize = 0;
     }
     //return queue size for now
-    public add(value: any, priority: number): number {
+    public enqueue(value: any, priority: number): number {
         const newNode = new Node(value, priority);
         if (!this.head) {
             this.head = newNode;
@@ -112,11 +112,11 @@ export class PriorityQueue {
         return null;
     }
 
-    public queueLength(): number {
+    public size(): number {
         return this.queueSize;
     }
 
-    public pop(): PriorityQueueItem<any> | null {
+    public dequeue(): PriorityQueueItem<any> | null {
         let temp = null
         if (this.tail != null) {
             temp = this.tail
