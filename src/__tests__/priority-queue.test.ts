@@ -8,6 +8,9 @@ describe('PriorityQueue', () => {
     });
 
     describe('add', () => {
+        test('queue should have size 0 if empty', () => {
+            expect(queue.size()).toBe(0)
+        })
         test('should add element to queue', () => {
             queue.enqueue(1, 1);
             expect(queue.size()).toBe(1);
