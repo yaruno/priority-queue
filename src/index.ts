@@ -76,6 +76,7 @@ export class PriorityQueue {
                 while (pointer != null && pointer.getPriority() >= newNode.getPriority()) {
                     if (pointer.getNext() == null) { //we got to end of queue, the rest of priorities had higher values 
                         pointer.setNext(newNode)
+                        newNode.setPrev(pointer)
                         this.tail = newNode
                         this.queueSize++;
                         break
@@ -93,10 +94,25 @@ export class PriorityQueue {
                         this.queueSize++;
                         break
                     }
+
+                    let next = pointer.getNext()
+                    //if next from pointer has smaller value than the current one, we should place to node between them
+                    if (next != null) {
+                        if (next.getPriority() < newNode.getPriority()) {
+                            let temp = pointer
+                            //let next = pointer.getNext()
+                            temp.setNext(newNode)
+                            next?.setPrev(newNode)
+                            newNode.setPrev(temp)
+                            newNode.setNext(next)
+                            this.queueSize++;
+                            break;
+
+                        }
+                    }
                     pointer = pointer.getNext()
                 }
             }
-
             return this.queueSize;
         }
     }

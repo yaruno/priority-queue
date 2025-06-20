@@ -28,6 +28,20 @@ describe('PriorityQueue', () => {
             queue.enqueue(new Uint8Array([0, 1, 2, 3, 4, 5]), 3);
             expect(queue.size()).toBe(3);
         });
+        test('should be able to add negative numbered priorities', () => {
+            queue.enqueue(1, -1);
+            queue.enqueue(2, -2);
+            expect(queue.size()).toBe(2);
+            const result = queue.peek();
+            if (result) {
+                const { value, priority } = result;
+                expect(priority).toBe(-2);
+                expect(value).toBe(2);
+            }
+
+            queue.enqueue(1.5, -1.5);
+            expect(queue.size()).toBe(3);
+        })
     });
 
     describe('dequeue', () => {
@@ -79,4 +93,27 @@ describe('PriorityQueue', () => {
             expect(queue.size()).toBe(0);
         });
     });
+
+    describe('queue and dequeue', () => {
+        test('should return priorities in right order', () => {
+            //add, [0, 2, 1, -1, -2 , 0.2, -0.4]
+            //enqueue should return in order of [-2, -1, -0.4, 0 , 0.2 , 1, 2]
+            const ordered_queue = [-2, -1, -0.4, 0, 0.2, 1, 2]
+            const insertion_order = [0, 2, 1, -1, -2, 0.2, -0.4]
+            insertion_order.forEach(item => {
+                queue.enqueue(item, item)   // lets just add same priority as value
+            })
+            const resultArr = []
+            while (queue.size() != 0) {
+                const result = queue.dequeue()
+                if (result) {
+                    const { priority } = result
+                    resultArr.push(priority)
+                }
+            }
+
+            expect(resultArr).toEqual(ordered_queue)
+
+        })
+    })
 }); 
