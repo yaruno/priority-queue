@@ -33,10 +33,15 @@
   },
   "keywords": [
     "priority-queue",
-    "typescript",
-    "data-structure",
     "queue",
-    "heap"
+    "data-structure",
+    "typescript",
+    "javascript",
+    "doubly-linked-list",
+    "fifo",
+    "sorted",
+    "task-scheduling",
+    "job-queue"
   ],
   "author": "",
   "license": "MIT",
