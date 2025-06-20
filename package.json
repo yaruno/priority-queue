@@ -1,6 +1,6 @@
 {
   "name": "@yaruno/priority-queue",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Priority queue implementation in TypeScript",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

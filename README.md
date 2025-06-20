@@ -7,7 +7,7 @@ A TypeScript implementation of a priority queue using a doubly-linked list data 
 ## Installation
 
 ```bash
-npm install priority-queue
+npm install @yaruno/priority-queue
 ```
 
 ## Overview
