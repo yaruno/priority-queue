@@ -98,8 +98,8 @@ describe('PriorityQueue', () => {
         test('should return priorities in right order', () => {
             //add, [0, 2, 1, -1, -2 , 0.2, -0.4]
             //enqueue should return in order of [-2, -1, -0.4, 0 , 0.2 , 1, 2]
-            const ordered_queue = [-2, -1, -0.4, 0, 0.2, 1, 2]
-            const insertion_order = [0, 2, 1, -1, -2, 0.2, -0.4]
+            const expected_order = [-4, -2, -2, -1, -0.4, 0, 0.2, 1, 2, 5, 10]
+            const insertion_order = [0, 2, 1, -1, -2, 5, 0.2, -0.4, -2, 10, -4]
             insertion_order.forEach(item => {
                 queue.enqueue(item, item)   // lets just add same priority as value
             })
@@ -112,7 +112,7 @@ describe('PriorityQueue', () => {
                 }
             }
 
-            expect(resultArr).toEqual(ordered_queue)
+            expect(resultArr).toEqual(expected_order)
 
         })
     })
