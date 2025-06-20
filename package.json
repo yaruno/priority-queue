@@ -1,6 +1,6 @@
 {
-  "name": "priority-queue",
-  "version": "0.0.1",
+  "name": "@yaruno/priority-queue",
+  "version": "0.0.2",
   "description": "Priority queue implementation in TypeScript",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -15,9 +15,14 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/yaruno/priority-queue",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaruno/priority-queue.git"
+  },
   "homepage": "https://github.com/yaruno/priority-queue#readme",
-  "bugs": "https://github.com/yaruno/priority-queue/issues",
+  "bugs": {
+    "url": "https://github.com/yaruno/priority-queue/issues"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -51,5 +56,6 @@
     "testMatch": [
       "**/__tests__/**/*.test.ts"
     ]
-  }
+  },
+  "dependencies": {}
 }
