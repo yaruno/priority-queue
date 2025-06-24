@@ -44,7 +44,7 @@ queue.enqueue("task3b", 3); // Queue state: [10, 5, 3*, 3, 2, 1, 0]
 
 #### 2. Removing Items (`dequeue()`)
 
-The `pop` method removes and returns the **highest priority** item i.e. item with lowest priority number (from the tail):
+The `dequeue` method removes and returns the **highest priority** item i.e. item with lowest priority number (from the tail):
 
 1. Returns the value and proproty at the tail
 2. Removes item from tail, updates queue size
@@ -68,6 +68,75 @@ The `peek` method returns the highest priority item without removing it:
 
 Returns the current number of items in the queue. Returns 0 if queue is empty.
 
+#### 5. Clearing the Queue (`clear()`)
+
+The `clear` method removes all items from the queue:
+- removes items from queue
+- Resets queue size to 0
+
+**Example:**
+```typescript
+queue.enqueue("task1", 1);
+queue.enqueue("task2", 2);
+console.log(queue.size()); // 2
+
+queue.clear();
+console.log(queue.size()); // 0
+console.log(queue.peek()); // null
+```
+
+#### 6. Iterating Over the Queue
+
+The priority queue implements the iterator protocol, allowing you to iterate over all items in priority order:
+
+- Iterates from highest priority (lowest priority number) to lowest priority (highest priority number)
+- Returns `PriorityQueueItem` objects with `value` and `priority` properties
+- Does not modify the queue
+
+**Example:**
+```typescript
+queue.enqueue("urgent", 1);
+queue.enqueue("normal", 5);
+queue.enqueue("low", 10);
+
+// Iterate over all items
+for (const item of queue) {
+    console.log(`${item.value}: priority ${item.priority}`);
+}
+// Output:
+// urgent: priority 1
+// normal: priority 5
+// low: priority 10
+
+console.log(queue.size()); // Still 3 (iteration doesn't remove items)
+```
+
+#### 7. Draining the Queue (`drain()`)
+
+The `drain` method is a generator that yields and removes all items from the queue in priority order:
+
+- Yields items from highest priority to lowest priority
+- Removes each item as it's yielded
+- Useful for processing all items and clearing the queue in one operation
+
+**Example:**
+```typescript
+queue.enqueue("urgent", 1);
+queue.enqueue("normal", 5);
+queue.enqueue("low", 10);
+
+// Process all items and remove them
+for (const item of queue.drain()) {
+    console.log(`Processing: ${item.value}`);
+}
+// Output:
+// Processing: urgent
+// Processing: normal
+// Processing: low
+
+console.log(queue.size()); // 0 (queue is now empty)
+```
+
 ## Usage Example
 
 ### CommonJS
@@ -90,6 +159,15 @@ const nextItem = queue.peek(); // { value: "Urgent task", priority: 1 }
 // Remove and process the highest priority item
 const processed = queue.dequeue(); // { value: "Urgent task", priority: 1 }
 console.log(queue.size()); // 2
+
+// Iterate over remaining items
+for (const item of queue) {
+    console.log(`${item.value}: priority ${item.priority}`);
+}
+
+// Clear the queue
+queue.clear();
+console.log(queue.size()); // 0
 ```
 
 ### ES Modules
@@ -106,6 +184,11 @@ queue.enqueue("Low priority task", 10);
 console.log(queue.size()); // 3
 console.log(queue.peek()); // { value: "Urgent task", priority: 1 }
 console.log(queue.dequeue()); // { value: "Urgent task", priority: 1 }
+
+// Process all remaining items
+for (const item of queue.drain()) {
+    console.log(`Processing: ${item.value}`);
+}
 ```
 
 ### TypeScript
@@ -122,6 +205,11 @@ queue.enqueue("Low priority task", 10);
 // Type-safe operations
 const nextItem: PriorityQueueItem<string> | null = queue.peek();
 const processed: PriorityQueueItem<string> | null = queue.dequeue();
+
+// Iterate with type safety
+for (const item of queue) {
+    console.log(`${item.value}: priority ${item.priority}`);
+}
 ```
 
 ## Time Complexity
@@ -130,6 +218,9 @@ const processed: PriorityQueueItem<string> | null = queue.dequeue();
 - **Pop**: O(1) - Direct access to tail
 - **Peek**: O(1) - Direct access to tail
 - **Queue Length**: O(1) - Stored as a property
+- **Clear**: O(1) - Direct property reset
+- **Iteration**: O(n) - Traverses entire list
+- **Drain**: O(n) - Processes all items
 
 ## How This Compares to Other Priority Queues
 
@@ -149,4 +240,5 @@ Most popular npm priority queues (like `tinyqueue`, `fastpriorityqueue`, etc.) u
 | Order Within Same Priority       | FIFO (insertion order preserved)    | Unpredictable                       |
 | Sorting Behavior                 | Fully sorted internally             | Not sorted (heap structure only)    |
 | Peek / Pop Complexity            | O(1)                                | O(log n)                            |
+| Iteration Support                | Built-in iterator and drain         | Manual iteration required           |
 | Use Case                         | When exact ordering matters         | When only performance matters       |

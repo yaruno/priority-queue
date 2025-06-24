@@ -119,4 +119,21 @@ export class PriorityQueue {
         this.tail = null
         this.queueSize = 0
     }
+
+    *[Symbol.iterator]() {
+        let current = this.tail
+        while (current) {
+            yield {
+                value: current.getValue(),
+                priority: current.getPriority()
+            }
+            current = current.getPrev()
+        }
+    }
+
+    * drain() {
+        while (this.tail) {
+            yield this.dequeue()
+        }
+    }
 }

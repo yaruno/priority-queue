@@ -16,6 +16,39 @@ describe('PriorityQueue', () => {
         })
     })
 
+    describe('iterate', () => {
+        //we'll return in order from highest important to lowest important
+        test('should be able to iterate the queue', () => {
+            queue.enqueue(2, 2);
+            queue.enqueue(1, 1);
+            const items = [...queue]
+            const expect_array = [{ value: 1, priority: 1 }, { value: 2, priority: 2 }]
+            expect(items).toStrictEqual(expect_array)
+        })
+
+        test('should be able to iterate the queue', () => {
+            queue.enqueue(1, 1);
+            queue.enqueue(2, 2);
+            const items = [...queue]
+            const expect_array = [{ value: 1, priority: 1 }, { value: 2, priority: 2 }]
+            expect(items).toStrictEqual(expect_array)
+        })
+
+        test('should return and remove item from queue while adhering to priority order', () => {
+            const expect_array = [{ value: 1, priority: 1 }, { value: 2, priority: 2 }, { value: 3, priority: 3 }]
+            queue.enqueue(1, 1);
+            queue.enqueue(2, 2);
+            queue.enqueue(3, 3);
+
+            const items = []
+            for (const item of queue.drain()) {
+                items.push(item)
+            }
+            expect(items).toStrictEqual(expect_array)
+            expect(queue.size()).toBe(0)
+        })
+    })
+
     describe('add', () => {
         test('queue should have size 0 if empty', () => {
             expect(queue.size()).toBe(0)
