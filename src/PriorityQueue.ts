@@ -113,4 +113,10 @@ export class PriorityQueue {
         }
         return null;
     }
+
+    public clear(): void {
+        this.head = null
+        this.tail = null
+        this.queueSize = 0
+    }
 }

@@ -7,6 +7,15 @@ describe('PriorityQueue', () => {
         queue = new PriorityQueue();
     });
 
+    describe('clear', () => {
+        test('clearing the queue should make the queue empty', () => {
+            queue.enqueue(1, 1);
+            queue.clear()
+            expect(queue.size()).toBe(0)
+            expect(queue.dequeue()).toBeNull()
+        })
+    })
+
     describe('add', () => {
         test('queue should have size 0 if empty', () => {
             expect(queue.size()).toBe(0)
